@@ -106,4 +106,20 @@ python run.py
 
 https://developers.google.com/identity#google-sign-in
 https://developers.google.com/identity/gsi/web
+https://developers.google.com/identity/sign-in/web/sign-in
+https://console.cloud.google.com/projectselector2/apis/credentials?pli=1&supportedpurview=project
+fbcok-inventory
 
+1. Go to the Credentials page.
+2. Click Create credentials > OAuth client ID.
+   Create Consent screen
+   Select "External"
+   Click "Create"
+   
+3. Select the Web application application type.
+4. Name your OAuth 2.0 client and click Create
+
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
+
+Added the app secrets .json file to instance/ and added instance/ to .gitignore
