@@ -4,3 +4,6 @@ docker-compose.override.yaml
 .idea
 inventory.egg-info
 __pycache__
+instance/
+#*
+.#*

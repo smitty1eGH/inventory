@@ -93,21 +93,21 @@ def sign_in():
 
 
 @app.route('/customers.json')
-@login_required
+# @login_required
 def customers_json():
     email = flask.session.get('email')
     return flask.jsonify(_get_db().get_customers({'user_email': email}))
 
 
 @app.route('/inventory.json')
-@login_required
+# @login_required
 def inventory_json():
     email = flask.session.get('email')
     return flask.jsonify(_get_db().get_inventory({'user_email': email}))
 
 
 @app.route('/items/<item_id>')
-@login_required
+# @login_required
 def item_detail(item_id):
     email = flask.session.get('email')
     params = {
@@ -119,7 +119,7 @@ def item_detail(item_id):
 
 
 @app.route('/items/delete', methods=['POST'])
-@login_required
+# @login_required
 def items_delete():
     email = flask.session.get('email')
     params = {
@@ -131,7 +131,7 @@ def items_delete():
 
 
 @app.route('/orders')
-@login_required
+# @login_required
 def orders():
     email = flask.session.get('email')
     flask.g.today = datetime.date.today()
@@ -140,7 +140,7 @@ def orders():
 
 
 @app.route('/orders/add_item', methods=['POST'])
-@login_required
+# @login_required
 def orders_add_item():
     email = flask.session.get('email')
     params = {
@@ -155,7 +155,7 @@ def orders_add_item():
 
 
 @app.route('/orders/delete', methods=['POST'])
-@login_required
+# @login_required
 def orders_delete():
     email = flask.session.get('email')
     params = {
@@ -167,7 +167,7 @@ def orders_delete():
 
 
 @app.route('/orders/delete_item', methods=['POST'])
-@login_required
+# @login_required
 def orders_delete_item():
     email = flask.session.get('email')
     params = {
@@ -180,7 +180,7 @@ def orders_delete_item():
 
 
 @app.route('/orders/new', methods=['POST'])
-@login_required
+# @login_required
 def orders_new():
     email = flask.session.get('email')
     params = {
@@ -193,7 +193,7 @@ def orders_new():
 
 
 @app.route('/orders/set_details', methods=['POST'])
-@login_required
+# @login_required
 def orders_set_details():
     email = flask.session.get('email')
     params = {
@@ -207,7 +207,7 @@ def orders_set_details():
 
 
 @app.route('/orders/set_item_status', methods=['POST'])
-@login_required
+# @login_required
 def orders_set_item_status():
     email = flask.session.get('email')
     params = {
