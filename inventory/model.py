@@ -1,3 +1,4 @@
+import datetime
 import enum
 import logging
 import typing
@@ -31,7 +32,7 @@ class Users(Base):
     __tablename__ = "users"
     user_id = Column(String, primary_key=True)
     user_email = Column(String)
-    user_level = Column(Enum(UserLevelEnum()),default=UserLevelEnum.standard)
+    user_level = Column(Enum(UserLevelEnum),default=UserLevelEnum.standard)
     children0 = relationship("Items")
     children1 = relationship("Orders")
     children2 = relationship("Sales")
@@ -43,6 +44,7 @@ class Items(Base):
     user_id = Column(String, ForeignKey('users.user_id'))
     item_name = Column(String)
     item_category = Column(String)
+    children0 = relationship("OrderItems")
 
 
 class Orders(Base):
@@ -52,40 +54,39 @@ class Orders(Base):
     order_created_at  = Column(DateTime)
     order_locked = Column(Boolean, default=False)
     order_note = Column(String)
+    children0 = relationship("OrderItems")
 
 
 class Sales(Base):
     __tablename__ = "sales"
     sale_id = Column(String, primary_key=True)
     user_id = Column(String, ForeignKey('users.user_id'))
-    sale_created_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
-    sale_customer TEXT DEFAULT '',
-    sale_paid BOOLEAN NOT NULL DEFAULT FALSE,
-    sale_delivered BOOLEAN NOT NULL DEFAULT FALSE
+    sale_created_at = Column(DateTime, default=datetime.datetime.now()),
+    sale_customer = Column(String,default=''),
+    sale_paid  = Column(Boolean, default=False)
+    sale_delivered  = Column(Boolean, default=False)
 
 
 class OrderItems(Base):
     __tablename__ = "order_items"
-    order_id UUID REFERENCES orders ON DELETE CASCADE,
-    item_id UUID REFERENCES items,
-    quantity INT NOT NULL,
-    status order_item_status_enum NOT NULL DEFAULT 'ordered',
-    PRIMARY KEY (order_id, item_id)
+    order_id = Column(String, ForeignKey('orders.order_id'), primary_key=True)
+    item_id = Column(String, ForeignKey('items.item_id'), primary_key=True)
+    quantity = Column(Integer)
+    status = Column(Enum(OrderItemStatusEnum),default=OrderItemStatusEnum.ordered)
 
 
 class SaleItems(Base):
     __tablename__ = "sale_items"
-    sale_id UUID REFERENCES sales ON DELETE CASCADE,
-    item_id UUID REFERENCES items,
-    quantity INT NOT NULL,
-    PRIMARY KEY (sale_id, item_id)
+    sale_id = Column(String, ForeignKey('sale.sale_id'), primary_key=True)
+    item_id = Column(String, ForeignKey('items.item_id'), primary_key=True)
+    quantity = Column(Integer)
 
 
 class Samples(Base):
     __tablename__ = "samples"
-    sample_id UUID PRIMARY KEY,
-    item_id UUID REFERENCES items,
-    quantity INT NOT NULL,
-    sample_used BOOLEAN NOT NULL DEFAULT FALSE
+    sample_id = Column(String, primary_key=True)
+    item_id = Column(String, ForeignKey('items.item_id'))
+    quantity = Column(Integer)
+    sample_used  = Column(Boolean, default=False)
 
 
