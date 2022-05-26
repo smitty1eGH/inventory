@@ -1,13 +1,25 @@
 import pytest
 from pytest_sqlalchemy import engine, connection
 
-from inventory.model import Base, Samples, SaleItems, OrderItems, Sales, Orders, Items, Users, Flags, OrderItemStatusEnum, UserLevelEnum
+from inventory.model import (
+    Base,
+    Samples,
+    SaleItems,
+    OrderItems,
+    Sales,
+    Orders,
+    Items,
+    Users,
+    Flags,
+    OrderItemStatusEnum,
+    UserLevelEnum,
+)
 
 
 @pytest.fixture(scope="session")
 def sqlalchemy_connect_url():
     # return 'postgresql://scott:tiger@localhost:5432/mydatabase'
-    return 'sqlite:///:memory:'
+    return "sqlite:///:memory:"
 
 
 @pytest.fixture
