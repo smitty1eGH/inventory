@@ -1,23 +1,24 @@
 import datetime
 import enum
 import logging
-import typing
-import uuid
 
-from sqlalchemy import Column, DateTime, Enum, Integer, String, ForeignKey
+from sqlalchemy import (Boolean, Column, DateTime, Enum, ForeignKey, Integer,
+                        String)
 from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
 log = logging.getLogger(__name__)
 
+# from model import Samples, SaleItems, OrderItems, Sales, Orders, Items, Users, Flags, OrderItemStatusEnum, UserLevelEnum
+
 class UserLevelEnum(enum.Enum):
-    admin : str = 'admin'
-    standard : str = 'standard'
+    admin: str = 'admin'
+    standard: str = 'standard'
 
 class OrderItemStatusEnum(enum.Enum):
-    ordered : str = 'ordered'
-    received : str = 'received'
-    cancelled : str = 'cancelled'
+    ordered: str = 'ordered'
+    received: str = 'received'
+    cancelled: str = 'cancelled'
 
 class Flags(Base):
     __tablename__ = "flags"
@@ -51,7 +52,7 @@ class Orders(Base):
     __tablename__ = "orders"
     order_id = Column(String, primary_key=True)
     user_id = Column(String, ForeignKey('users.user_id'))
-    order_created_at  = Column(DateTime)
+    order_created_at = Column(DateTime)
     order_locked = Column(Boolean, default=False)
     order_note = Column(String)
     children0 = relationship("OrderItems")
@@ -61,10 +62,10 @@ class Sales(Base):
     __tablename__ = "sales"
     sale_id = Column(String, primary_key=True)
     user_id = Column(String, ForeignKey('users.user_id'))
-    sale_created_at = Column(DateTime, default=datetime.datetime.now()),
-    sale_customer = Column(String,default=''),
-    sale_paid  = Column(Boolean, default=False)
-    sale_delivered  = Column(Boolean, default=False)
+    sale_created_at = Column(DateTime, default=datetime.datetime.now())
+    sale_customer = Column(String, default='')
+    sale_paid = Column(Boolean, default=False)
+    sale_delivered = Column(Boolean, default=False)
 
 
 class OrderItems(Base):
@@ -72,12 +73,13 @@ class OrderItems(Base):
     order_id = Column(String, ForeignKey('orders.order_id'), primary_key=True)
     item_id = Column(String, ForeignKey('items.item_id'), primary_key=True)
     quantity = Column(Integer)
-    status = Column(Enum(OrderItemStatusEnum),default=OrderItemStatusEnum.ordered)
+    status = Column(Enum(OrderItemStatusEnum),
+                    default=OrderItemStatusEnum.ordered)
 
 
 class SaleItems(Base):
     __tablename__ = "sale_items"
-    sale_id = Column(String, ForeignKey('sale.sale_id'), primary_key=True)
+    sale_id = Column(String, ForeignKey('sales.sale_id'), primary_key=True)
     item_id = Column(String, ForeignKey('items.item_id'), primary_key=True)
     quantity = Column(Integer)
 
@@ -87,6 +89,6 @@ class Samples(Base):
     sample_id = Column(String, primary_key=True)
     item_id = Column(String, ForeignKey('items.item_id'))
     quantity = Column(Integer)
-    sample_used  = Column(Boolean, default=False)
+    sample_used = Column(Boolean, default=False)
 
 
